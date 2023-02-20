@@ -1,5 +1,7 @@
 ﻿@page "/chat"
-@using BlazorLiveDemoNet.Shared.DTOs
+
+@inject NavigationManager NavigationManager
+
 <h3>Chat</h3>
 
 <EditForm Model="CurrentMessage" OnSubmit="SendMessage">
@@ -13,28 +15,11 @@
     </div>
     <button class="btn btn-primary">Send</button>
 </EditForm>
-<ul class="container">
+<ul class="container list-unstyled">
     <Virtualize Items="Messages.OrderByDescending(m=>m.Timestamp).ToArray()" Context="message">
-        <li>
-            <h4>@message.Name @message.Message @message.Timestamp</h4>
+        <li class="p-2 mb-1">
+            <label class="lh-sm"> <span class="oi oi-person"></span>@message.Name - @message.Timestamp.Value.ToLocalTime().ToString("HH:mm")</label>
+            <h4 class="pinkaroo text-light rounded-3 p-2 mb-1">@message.Message</h4>
         </li>
     </Virtualize>
 </ul>
-@code {
-    public ChatMessageDto CurrentMessage { get; set; } = new();
-    public List<ChatMessageDto> Messages { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Messages = new List<ChatMessageDto>();
-        await base.OnInitializedAsync();
-    }
-
-    private void SendMessage()
-    {
-        CurrentMessage.Timestamp = DateTime.UtcNow;
-        Messages.Add(CurrentMessage);
-        CurrentMessage = new ChatMessageDto();
-    }
-
-}
