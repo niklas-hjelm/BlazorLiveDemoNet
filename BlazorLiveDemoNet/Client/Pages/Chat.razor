@@ -1,0 +1,40 @@
+﻿@page "/chat"
+@using BlazorLiveDemoNet.Shared.DTOs
+<h3>Chat</h3>
+
+<EditForm Model="CurrentMessage" OnSubmit="SendMessage">
+    <div class="form-control">
+        <label>Name</label>
+        <InputText @bind-Value="CurrentMessage.Name"></InputText>
+    </div>
+    <div class="form-control">
+        <label>Message</label>
+        <InputTextArea @bind-Value="CurrentMessage.Message"></InputTextArea>
+    </div>
+    <button class="btn btn-primary">Send</button>
+</EditForm>
+<ul class="container">
+    <Virtualize Items="Messages.OrderByDescending(m=>m.Timestamp).ToArray()" Context="message">
+        <li>
+            <h4>@message.Name @message.Message @message.Timestamp</h4>
+        </li>
+    </Virtualize>
+</ul>
+@code {
+    public ChatMessageDto CurrentMessage { get; set; } = new();
+    public List<ChatMessageDto> Messages { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Messages = new List<ChatMessageDto>();
+        await base.OnInitializedAsync();
+    }
+
+    private void SendMessage()
+    {
+        CurrentMessage.Timestamp = DateTime.UtcNow;
+        Messages.Add(CurrentMessage);
+        CurrentMessage = new ChatMessageDto();
+    }
+
+}
