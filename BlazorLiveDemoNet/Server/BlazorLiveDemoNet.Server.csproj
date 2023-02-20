@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BlazorLiveDemoNet.DataAccess\BlazorLiveDemoNet.DataAccess.csproj" />
     <ProjectReference Include="..\Client\BlazorLiveDemoNet.Client.csproj" />
     <ProjectReference Include="..\Shared\BlazorLiveDemoNet.Shared.csproj" />
   </ItemGroup>

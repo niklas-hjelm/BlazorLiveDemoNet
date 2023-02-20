@@ -1,3 +1,4 @@
+using BlazorLiveDemoNet.DataAccess.Repositories;
 using BlazorLiveDemoNet.Server.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddScoped<ChatRepository>();
 
 builder.Services.AddSignalR();
 
@@ -30,6 +33,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapHub<ChatHub>("/hubs/chat");
+
+app.MapGet("/allMessages", async (ChatRepository repo) => await repo.GetAllMessages());
 
 app.MapRazorPages();
 

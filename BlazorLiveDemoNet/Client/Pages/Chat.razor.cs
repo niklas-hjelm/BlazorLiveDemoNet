@@ -1,4 +1,5 @@
-﻿using BlazorLiveDemoNet.Shared.DTOs;
+﻿using System.Net.Http.Json;
+using BlazorLiveDemoNet.Shared.DTOs;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -24,6 +25,13 @@ partial class Chat : ComponentBase
             Messages.Add(message);
             StateHasChanged();
         });
+
+        var response = await HttpClient.GetFromJsonAsync<ChatMessageDto[]>(HttpClient.BaseAddress+"allMessages");
+
+        if (response != null)
+        {
+            Messages.AddRange(response);
+        }
 
         await _chatHub.StartAsync();
         await base.OnInitializedAsync();
