@@ -26,7 +26,7 @@ partial class Chat : ComponentBase
             StateHasChanged();
         });
 
-        var response = await HttpClient.GetFromJsonAsync<ChatMessageDto[]>(HttpClient.BaseAddress+"allMessages");
+        var response = await HttpClient.GetFromJsonAsync<ChatMessageDto[]>("allMessages");
 
         if (response != null)
         {
@@ -43,5 +43,5 @@ partial class Chat : ComponentBase
         await _chatHub.SendAsync("BroadcastMessage", CurrentMessage);
         CurrentMessage.Message = string.Empty;
     }
-
+    public void OnBroadcastRecieved(ChatMessageDto message){}
 }
