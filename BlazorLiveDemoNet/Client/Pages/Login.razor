@@ -1,6 +1,9 @@
 ﻿@page "/Login"
 @using BlazorLiveDemoNet.Shared.DTOs
 @inject HttpClient HttpClient
+@inject ISessionStorageService SessionStorageService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 
 <h3>Login</h3>
 
@@ -25,8 +28,12 @@
     {
         var response = await HttpClient.PostAsJsonAsync("user/login", UserLogin);
         var result = await response.Content.ReadFromJsonAsync<ServiceResponse<string>>();
-        Console.WriteLine(result.Message);
-        Console.WriteLine(result.Data);
+        if(result.Success)
+        {
+            SessionStorageService.SetItem("authToken", result.Data);
+            await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            NavigationManager.NavigateTo("");
+        }
     }
 
 }
