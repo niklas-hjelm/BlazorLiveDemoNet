@@ -97,6 +97,7 @@ public class AuthService : IAuthService
             new (ClaimTypes.Email, user.Email),
             new (ClaimTypes.NameIdentifier, user.Id.ToString())
         };
+
         var secret = _configuration.GetSection("AppSecrets:Secret").Value;
 
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secret));

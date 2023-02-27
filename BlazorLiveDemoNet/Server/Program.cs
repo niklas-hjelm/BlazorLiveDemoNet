@@ -1,6 +1,7 @@
 using BlazorLiveDemoNet.DataAccess.Contexts;
 using BlazorLiveDemoNet.DataAccess.Models;
 using BlazorLiveDemoNet.DataAccess.Repositories;
+using BlazorLiveDemoNet.Server.Extensions;
 using BlazorLiveDemoNet.Server.Hubs;
 using BlazorLiveDemoNet.Server.Services;
 using BlazorLiveDemoNet.Server.Services.Interfaces;
@@ -49,17 +50,7 @@ app.MapHub<ChatHub>("/hubs/chat");
 
 app.MapGet("/allMessages", async (ChatRepository repo) => await repo.GetAllMessages());
 
-app.MapPost("/user/register", async (IAuthService authService, UserRegisterDto dto) =>
-{
-    var user = new UserModel() {Email = dto.Email};
-    return await authService.RegisterUserAsync(user, dto.Password);
-});
-
-app.MapPost("/user/login", async (IAuthService authService, UserRegisterDto dto) =>
-{
-    return await authService.LoginUserAsync(dto.Email, dto.Password);
-});
-
+app.MapAuthEndpoints();
 
 app.MapRazorPages();
 

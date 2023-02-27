@@ -1,9 +1,7 @@
 ﻿namespace BlazorLiveDemoNet.Shared.DTOs;
 
-public class UserRegisterDto
+public class UserLoginDto
 {
-    public string Nickname { get; set; }
     public string Email { get; set; }
     public string Password { get; set; }
-    public string ConfirmPassword { get; set; }
 }

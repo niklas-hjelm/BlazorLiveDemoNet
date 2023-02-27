@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorLiveDemoNet.DataAccess.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20230222122457_changedProperyName")]
-    partial class changedProperyName
+    [Migration("20230227090800_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
