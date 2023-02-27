@@ -1,0 +1,39 @@
+﻿@page "/register"
+@using BlazorLiveDemoNet.Shared.DTOs
+@inject HttpClient HttpClient
+
+<h3>Register</h3>
+
+<EditForm Model="UserRegister" OnValidSubmit="RegisterUser">
+    <DataAnnotationsValidator/>
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="UserRegister.Email"/>
+    </div>
+    <div class="mb-3">
+        <label for="email">Nickname</label>
+        <InputText id="nickname" @bind-Value="UserRegister.Nickname"/>
+    </div>
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="UserRegister.Password" type="password"/>
+    </div>
+    <div class="mb-3">
+        <label for="password">Confirm Password</label>
+        <InputText id="passwordConfirm" @bind-Value="UserRegister.ConfirmPassword" type="password"/>
+    </div>
+    <button class="btn btn-primary">Register</button>
+    <ValidationSummary/>
+</EditForm>
+
+@code {
+    UserRegisterDto UserRegister { get; set; } = new();
+
+    private async Task RegisterUser()
+    {
+        var response = await HttpClient.PostAsJsonAsync("user/register", UserRegister);
+        var result = await response.Content.ReadFromJsonAsync<ServiceResponse<int>>();
+        Console.WriteLine(result.Message);
+    }
+
+}
